@@ -8,7 +8,9 @@ const userSchema = new mongoose.Schema({
 })
 const classRoomSchema = new mongoose.Schema({
     clasName : String,
-    teacherId: String, // reference to User
+    teacherId: {
+        ref : "User"
+    }, // reference to User
     studentIds: {
         ref : "User"
     }
