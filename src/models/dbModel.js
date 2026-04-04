@@ -1,35 +1,46 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name : {String},
-    email : {String},
-    password: {String}, // hashed with bcrypt
-    role: "teacher" | "student"
-})
+  name: String,
+  email: String,
+  password: String,
+  role: {
+    type: String,
+    enum: ["teacher", "student"]
+  }
+});
+
 const classRoomSchema = new mongoose.Schema({
-    clasName : String,
-    teacherId: {
-        ref : "User"
-    }, // reference to User
-    studentIds: {
-        ref : "User"
-    }
-})
-
-const attendenceSchema = new mongoose.Schema({
-     classId: {
-        ref : "ClassRoom"
-     },
-  studentId: {
-    ref : "User"         
+  className: String,
+  teacherId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   },
-  status: "present" | "absent"
-})
-const classRoom = mongoose.model("ClassRoom" , classRoomSchema);
-const user= mongoose.model("User" , userSchema);
-const attendence = mongoose.model("attendence" , attendenceSchema)
+  studentIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
+});
 
+const attendanceSchema = new mongoose.Schema({
+  classId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ClassRoom"
+  },
+  studentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+  status: {
+    type: String,
+    enum: ["present", "absent"]
+  }
+});
 
-module.exports = classRoom;
-module.exports = user;
-module.exports = attendence;
+const ClassRoom = mongoose.model("ClassRoom", classRoomSchema);
+const User = mongoose.model("User", userSchema);
+const Attendance = mongoose.model("Attendance", attendanceSchema);
+
+export { ClassRoom, User, Attendance };
