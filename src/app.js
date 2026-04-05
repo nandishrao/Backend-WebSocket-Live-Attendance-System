@@ -10,7 +10,4 @@ server.listen(PORT , ()=>{
     console.log(`server running on port ${PORT}🚀🚀🚀`)
 });
 
-app.get("/",(req,res)=>{
-    res.send("Backend is running")
-})
-
+app.use('/api', apiRoutes)
