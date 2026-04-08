@@ -1,8 +1,8 @@
-import { User } from "../models/dbModel";
-import { errorResponse, generateToken, successResponse } from "../utils";
+import { User } from "../models/dbModel.js";
+import { errorResponse, generateToken, successResponse } from "../utils.js";
 import bcrypt from 'bcrypt';
 
-export const signUp = async(req,res)=>{
+const signUp = async(req,res)=>{
     const payload = req.body;
 
     try{
@@ -37,7 +37,7 @@ export const signUp = async(req,res)=>{
 
 }
 
-export const login = async (req,res)=>{
+const login = async (req,res)=>{
     const payload = req.body;
 
     try{
@@ -64,7 +64,7 @@ export const login = async (req,res)=>{
     }
 }
 
-export const me = async(req,res)=>{
+const me = async(req,res)=>{
     const userId = req.body.userId;
     try{
         const user = await User.findOne({
@@ -87,3 +87,8 @@ export const me = async(req,res)=>{
         return errorResponse(res, "Internal server error", 500);
     }
 }
+export default {
+    signUp,
+    login,
+    me
+};
