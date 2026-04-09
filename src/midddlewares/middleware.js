@@ -1,6 +1,5 @@
 import { errorResponse , verifytoken } from "../utils";
 import { User } from '../models/schema.js';
-import { TokenExpiredError } from "jsonwebtoken";
 
 export const authMiddleware = async(req , res ,next)=>{
     const token = req.headers?.authorization;
@@ -23,7 +22,7 @@ export const authMiddleware = async(req , res ,next)=>{
         console.log("Decoded token" + decoded)
         next();
     }catch(err){
-         console.log(error);
+         console.log(err);
         return errorResponse(res, "Unauthorized, token missing or invalid", 401);
     }
 }
