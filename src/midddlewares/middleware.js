@@ -27,3 +27,12 @@ export const authMiddleware = async(req , res ,next)=>{
         return errorResponse(res, "Unauthorized, token missing or invalid", 401);
     }
 }
+
+//checks the role of the user for route access-control
+export const roleMiddleware = (role) => (req, res, next) => {
+    const userRole = req.user?.role;
+    if(userRole !== role){
+        return errorResponse(res, "Forbidden, teacher access required", 403);
+    }
+    next();
+}
